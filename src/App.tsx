@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 
-const dayStartTime = 9.5; // 930am
+// const dayStartTime = 9.5; // 930am
 const dayEndTime = 21; // 9pm
 
 function App() {
   // Update every so often.
-  let [currentTime, setCurrentTime] = useState(new Date());
-  currentTime = new Date();
+  const [, setFrame] = useState(0);
 
   useEffect(() => {
     const tick = () => {
-      setCurrentTime(new Date());
+      setFrame((i) => i + 1);
       requestAnimationFrame(tick);
     };
 
@@ -20,6 +19,9 @@ function App() {
       cancelAnimationFrame(id);
     };
   }, []);
+
+  const currentTime = new Date();
+
   const endTime = new Date();
   const endHours = Math.floor(dayEndTime);
   const endMinutes = (dayEndTime - endHours) * 60;
@@ -36,14 +38,20 @@ function App() {
   const secondsUntilEndTime = totalSecondsUntilEndTime % 60;
 
   return (
-    <div className="h-screen grid items-center content-center">
-      <h1 className="text-center text-6xl">
-        <span className="font-bold font-mono">{hoursUntilEndTime}</span>&nbsp;
-        <span className="font-light">hours</span>{" "}
-        <span className="font-bold font-mono">{minutesUntilEndTime}</span>&nbsp;
-        <span className="font-light">minutes</span>{" "}
-        <span className="font-bold font-mono">{secondsUntilEndTime}</span>&nbsp;
-        <span className="font-light">seconds</span>
+    <div className="h-screen grid items-center content-center p-12">
+      <h1 className="justify-center text-6xl grid grid-cols-[repeat(2,min-content)] lg:grid-cols-[repeat(6,min-content)] gap-4 items-center content-center">
+        <span className="font-bold font-mono text-right">
+          {hoursUntilEndTime}
+        </span>
+        <span className="font-light text-left">hours</span>{" "}
+        <span className="font-bold font-mono text-right">
+          {minutesUntilEndTime}
+        </span>
+        <span className="font-light text-left">minutes</span>{" "}
+        <span className="font-bold font-mono text-right">
+          {secondsUntilEndTime}
+        </span>
+        <span className="font-light text-left">seconds</span>
       </h1>
     </div>
   );
